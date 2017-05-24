@@ -1,6 +1,7 @@
 package pkru.lookkaew.sarawut.mypkru;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -20,6 +21,7 @@ public class NewRegisterActivity extends AppCompatActivity implements View.OnCli
     private ImageView backImageView, humanImageView, cameraImageView;
     private Button button;
     private Uri humanUri, camaraUri;
+    private String pathImageString, maneImageString;
 
 
     @Override
@@ -51,6 +53,8 @@ public class NewRegisterActivity extends AppCompatActivity implements View.OnCli
                         .openInputStream(humanUri));
                 humanImageView.setImageBitmap(bitmap);
 
+                findPathAnName(humanUri);
+
             } catch (Exception e) {
                 Log.d("24May", "e humanUri ==> " + e.toString());
             }
@@ -69,11 +73,33 @@ public class NewRegisterActivity extends AppCompatActivity implements View.OnCli
                 Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver()
                         .openInputStream(camaraUri));
                 humanImageView.setImageBitmap(bitmap);
+                findPathAnName(camaraUri);
             } catch (Exception e) {
                 Log.d("24MayV1", "e camera ==> " + e.toString());
             }
 
         }  //if Camera
+    }
+
+    private void findPathAnName(Uri uri) {
+
+
+        String[] strings = new String[]{MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(uri, strings, null, null, null);
+
+        if (cursor != null) {
+
+            cursor.moveToFirst();
+            int index = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
+            pathImageString = cursor.getString(index);
+
+        } else {
+
+            pathImageString = uri.getPath();
+
+        }
+        Log.d("24MayV1", "Path ==> " + pathImageString);
+
     }
 
     private void controller() {
