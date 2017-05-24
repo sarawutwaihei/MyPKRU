@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -54,7 +55,14 @@ public class NewRegisterActivity extends AppCompatActivity implements View.OnCli
             }
 
 
-        }
+        } // if human
+
+        //For Camera
+        if ((requestCode == 1) && (resultCode == RESULT_OK)) {
+
+            Log.d("24MayV1", "Camera Result OK");
+
+        }  //if Camera
     }
 
     private void controller() {
@@ -90,6 +98,13 @@ public class NewRegisterActivity extends AppCompatActivity implements View.OnCli
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("image/*");
             startActivityForResult(Intent.createChooser(intent, "Please Choose App for Choose Image"), 0);
+        }
+
+        //For Camere
+        if (v == cameraImageView) {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(intent, 1);
+
         }
 
     }
