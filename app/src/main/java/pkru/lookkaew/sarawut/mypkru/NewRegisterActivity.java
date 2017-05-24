@@ -47,7 +47,8 @@ public class NewRegisterActivity extends AppCompatActivity implements View.OnCli
             humanUri = data.getData();
             try {
 
-                Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(humanUri));
+                Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver()
+                        .openInputStream(humanUri));
                 humanImageView.setImageBitmap(bitmap);
 
             } catch (Exception e) {
@@ -61,6 +62,16 @@ public class NewRegisterActivity extends AppCompatActivity implements View.OnCli
         if ((requestCode == 1) && (resultCode == RESULT_OK)) {
 
             Log.d("24MayV1", "Camera Result OK");
+
+            //Show Image
+            camaraUri = data.getData();
+            try {
+                Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver()
+                        .openInputStream(camaraUri));
+                humanImageView.setImageBitmap(bitmap);
+            } catch (Exception e) {
+                Log.d("24MayV1", "e camera ==> " + e.toString());
+            }
 
         }  //if Camera
     }
